@@ -1,0 +1,18 @@
+.tmp/
+dist/
+e2e/
+gulp/
+eslint/
+node_modules/
+
+.eslintrc.js
+.prettierrc.js
+
+# Tests
+src/**/*.spec.js
+src/**/*.test.js
+src/**/*.spec.ts
+src/**/*.test.ts
+
+# Assets & Language
+src/@types/**/*.d.ts
