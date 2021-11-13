@@ -1,5 +1,7 @@
 src/
 
+.idea/
+.vscode/
 .editorconfig
 .eslintignore
 .eslintrc.js
