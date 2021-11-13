@@ -31,7 +31,7 @@ cd awesome-project && npm run dev
 ```
 
 - Have a look at the example endpoints in `src/http/handlers`.
-- API Doc is located at this URL: `http://localhost:3030/api-docs`
+- API Doc is located at this URL: `http://localhost:3030/api-docs` (make sure to generate it first, using `npm run build:doc` - read more info below).
 
 ### Defining endpoints
 
