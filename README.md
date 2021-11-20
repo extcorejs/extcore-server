@@ -35,9 +35,13 @@ cd awesome-project && npm run dev
 
 ### Defining endpoints
 
+Note: request handlers have to be located by default in `src/http/handlers` and respect the naming convention: `*.handlers.ts`.
+
 #### The basics
 
 ```typescript
+// file: src/http/handlers/articles.handlers.ts
+
 import { route } from '@extcore/server';
 
 export const getArticles = route({
