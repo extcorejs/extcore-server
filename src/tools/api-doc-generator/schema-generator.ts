@@ -14,6 +14,7 @@ export const generateSchemas = (sourceFile: string, tsconfigFile: string): Schem
     type: '*',
     expose: 'export',
     additionalProperties: false,
+    skipTypeCheck: true,
   };
 
   const program = createProgram(config);
