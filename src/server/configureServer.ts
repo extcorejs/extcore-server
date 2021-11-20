@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import express, { Application } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -11,7 +11,7 @@ import assignRequestId from './middlewares/assign-request-id';
 import { HooksBuilderFunction, ServerConfig } from './types';
 import { handleClientError, handleServerError } from './middlewares/error-handlers';
 import { readDirRecursively } from '../utils';
-import { HttpEndpoint } from '../routing';
+import { handleRequest, HttpEndpoint } from '../routing';
 import { hookAPI, triggerHooks } from './hooks';
 
 export const configureServer = (config: ServerConfig): express.Express => {
@@ -109,7 +109,7 @@ const setupParsedRoutes = (app: express.Express, directory: string): void => {
 };
 
 const registerHttpEndpoint = (app: express.Express, endpoint: HttpEndpoint<any>): void => {
-  app[endpoint.getMethod()](endpoint.getPath(), endpoint.getExpressHandler() as Application);
+  app[endpoint.getMethod()](endpoint.getPath(), handleRequest(endpoint.getExpressHandler()));
 };
 
 const setupSwagger = (app: express.Express, swaggerDocument: Record<string, unknown>): void => {

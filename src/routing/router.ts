@@ -48,12 +48,12 @@ const registerRoute = (router: Router, routeConfig: RouteConfig) => {
   }
 };
 
-const handleRequest = (handler: ExpressHandlerFunction) => {
-  return async (req: HttpRequest, res: ExpressResponse, next: NextFunction) => {
+export const handleRequest = (handler: ExpressHandlerFunction): RequestHandler => {
+  return (async (req: HttpRequest, res: ExpressResponse, next: NextFunction) => {
     try {
       await handler(req, res);
     } catch (e) {
       next(e);
     }
-  };
+  }) as RequestHandler;
 };
