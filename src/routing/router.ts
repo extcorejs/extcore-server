@@ -7,6 +7,8 @@ export type ExpressHandlerFunction<
   ReqQuery extends RequestQuery = RequestQuery,
 > = (req: HttpRequest<ReqBody, URLParams, ReqQuery>, res: ExpressResponse, next?: NextFunction) => Promise<void> | void;
 
+export type ExpressMiddleware = (req: HttpRequest, res: ExpressResponse, next: NextFunction) => Promise<void> | void;
+
 export type RouteConfig = ControllerRouteConfig | RouteGroupConfig;
 
 interface ControllerRouteConfig {
@@ -51,7 +53,7 @@ const registerRoute = (router: Router, routeConfig: RouteConfig) => {
 export const handleRequest = (handler: ExpressHandlerFunction): RequestHandler => {
   return (async (req: HttpRequest, res: ExpressResponse, next: NextFunction) => {
     try {
-      await handler(req, res);
+      await handler(req, res, next);
     } catch (e) {
       next(e);
     }

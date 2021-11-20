@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -109,7 +109,10 @@ const setupParsedRoutes = (app: express.Express, directory: string): void => {
 };
 
 const registerHttpEndpoint = (app: express.Express, endpoint: HttpEndpoint<any>): void => {
-  app[endpoint.getMethod()](endpoint.getPath(), handleRequest(endpoint.getExpressHandler()));
+  app[endpoint.getMethod()](endpoint.getPath(), [
+    ...endpoint.getMiddlewares(),
+    handleRequest(endpoint.getExpressHandler()),
+  ] as Application[]);
 };
 
 const setupSwagger = (app: express.Express, swaggerDocument: Record<string, unknown>): void => {

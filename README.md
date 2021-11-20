@@ -61,6 +61,22 @@ export const getArticles = route({
 });
 ```
 
+#### Middlewares
+
+You can also use middlewares in your route configuration, passing standard express handlers.
+
+```typescript
+export const getArticles = route({
+  // ...
+  middlewares: [
+    (req, res, next) => {
+      // Do something here ...
+      next();
+    },
+  ],
+});
+```
+
 #### Using types
 
 Use the Route `interface` to type your endpoint parameters, body and response:

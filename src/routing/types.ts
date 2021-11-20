@@ -2,6 +2,7 @@ import { Request as ExpressRequest } from 'express';
 import * as core from 'express-serve-static-core';
 import { HandlerResponse } from './HandlerResponse';
 import { Logger } from '../services';
+import { ExpressMiddleware } from './router';
 
 export type HttpMethod = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'options';
 export type RequestQuery = core.Query;
@@ -65,6 +66,7 @@ export interface EndpointConfig<
 > {
   path: string;
   method?: HttpMethod;
+  middlewares?: ExpressMiddleware[];
   handler: RouteHandlerFunction<Returned, ReqBody, URLParams, ReqQuery>;
   tags?: string[];
   summary?: string;

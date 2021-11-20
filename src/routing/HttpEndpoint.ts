@@ -10,7 +10,7 @@ import {
 import { ExpressResponse } from '../server';
 import { HandlerResponse } from './HandlerResponse';
 import { isPromise } from '../utils';
-import { ExpressHandlerFunction } from './router';
+import { ExpressHandlerFunction, ExpressMiddleware } from './router';
 import { logger } from '../services';
 
 interface DocProperties {
@@ -28,6 +28,7 @@ export class HttpEndpoint<
 > {
   private readonly path: string;
   private readonly method: HttpMethod;
+  private readonly middlewares: ExpressMiddleware[];
   private readonly handler: RouteHandlerFunction<Returned, ReqBody, URLParams, QueryParams>;
   private readonly doc: DocProperties = {
     tags: [],
@@ -39,6 +40,7 @@ export class HttpEndpoint<
   constructor(config: EndpointConfig<Returned, ReqBody, URLParams, QueryParams>, doc?: DocProperties) {
     this.path = config.path;
     this.method = config.method || 'get';
+    this.middlewares = config.middlewares || [];
     this.handler = config.handler;
     this.doc = {
       ...this.doc,
@@ -52,6 +54,10 @@ export class HttpEndpoint<
 
   public getMethod(): HttpMethod {
     return this.method;
+  }
+
+  public getMiddlewares(): ExpressMiddleware[] {
+    return this.middlewares;
   }
 
   public getDoc(): DocProperties {
