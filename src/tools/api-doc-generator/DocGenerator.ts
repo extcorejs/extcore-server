@@ -70,7 +70,7 @@ export class DocGenerator {
 
   protected removeFolderIfExists(dir: string): void {
     if (fs.existsSync(dir)) {
-      fs.rmdirSync(dir, {
+      fs.rmSync(dir, {
         recursive: true,
       });
     }
