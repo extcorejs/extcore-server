@@ -13,6 +13,7 @@ import { handleClientError, handleServerError } from './middlewares/error-handle
 import { readDirRecursively } from '../utils';
 import { handleRequest, HttpEndpoint } from '../routing';
 import { hookAPI, triggerHooks } from './hooks';
+import { validateRequest } from './middlewares/validate-request';
 
 export const configureServer = (config: ServerConfig): express.Express => {
   const app = express();
@@ -111,6 +112,7 @@ const setupParsedRoutes = (app: express.Express, directory: string): void => {
 const registerHttpEndpoint = (app: express.Express, endpoint: HttpEndpoint<any>): void => {
   app[endpoint.getMethod()](endpoint.getPath(), [
     ...endpoint.getMiddlewares(),
+    validateRequest(endpoint.getValidationSchema()),
     handleRequest(endpoint.getExpressHandler()),
   ] as Application[]);
 };

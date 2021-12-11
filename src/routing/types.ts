@@ -3,6 +3,7 @@ import * as core from 'express-serve-static-core';
 import { HandlerResponse } from './HandlerResponse';
 import { Logger } from '../services';
 import { ExpressMiddleware } from './router';
+import { YupValidationSchema } from '../types/validation';
 
 export type HttpMethod = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'options';
 export type RequestQuery = core.Query;
@@ -72,4 +73,5 @@ export interface EndpointConfig<
   summary?: string;
   response?: string;
   paramsDescription?: Record<string, string>;
+  validationSchema?: YupValidationSchema;
 }

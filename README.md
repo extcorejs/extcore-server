@@ -107,6 +107,30 @@ export const getArticles = route<GetArticlesRoute>({
 
 **NOTE**: in order for the API Doc generator to work properly, your endpoint types must be exported!
 
+#### Request validation
+
+You can validate your requests easily by using a [Yup schema](https://github.com/jquense/yup).
+
+Example:
+
+```typescript
+import { route } from '@extcore/server';
+import * as yup from 'yup';
+
+export const createUser = route({
+  // Your route config here...
+  validationSchema: yup.object().shape({
+    name: yup.string().required(),
+    age: yup.number().required().positive().integer(),
+    email: yup.string().email(),
+    password: yup.string().required().min(10),
+  }),
+})
+```
+
+When a validation schema is provided, validation will run after your custom middlewares and before main route handler.
+If validation fails, server will return a 422 Response (Unprocessable entity) with an array of error messages.
+
 ### API Doc
 
 - As mentioned above, don't forget to export your endpoint types.
@@ -170,7 +194,6 @@ In order to improve this package, don't hesitate to share your feedback and cont
 
 ### On the roadmap
 
-- Add route validators
 - Add event / listener layer
 - Add preconfigured data layer
 - Add authentication layer

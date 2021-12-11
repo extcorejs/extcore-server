@@ -12,6 +12,7 @@ import { HandlerResponse } from './HandlerResponse';
 import { isPromise } from '../utils';
 import { ExpressHandlerFunction, ExpressMiddleware } from './router';
 import { logger } from '../services';
+import { YupValidationSchema } from '../types/validation';
 
 interface DocProperties {
   tags?: string[];
@@ -29,6 +30,7 @@ export class HttpEndpoint<
   private readonly path: string;
   private readonly method: HttpMethod;
   private readonly middlewares: ExpressMiddleware[];
+  private readonly validationSchema: YupValidationSchema | null;
   private readonly handler: RouteHandlerFunction<Returned, ReqBody, URLParams, QueryParams>;
   private readonly doc: DocProperties = {
     tags: [],
@@ -41,6 +43,7 @@ export class HttpEndpoint<
     this.path = config.path;
     this.method = config.method || 'get';
     this.middlewares = config.middlewares || [];
+    this.validationSchema = config.validationSchema || null;
     this.handler = config.handler;
     this.doc = {
       ...this.doc,
@@ -58,6 +61,10 @@ export class HttpEndpoint<
 
   public getMiddlewares(): ExpressMiddleware[] {
     return this.middlewares;
+  }
+
+  public getValidationSchema(): YupValidationSchema | null {
+    return this.validationSchema;
   }
 
   public getDoc(): DocProperties {
